@@ -18,6 +18,6 @@ RUN /ins_pack.sh
 ENV PATH "$PATH:/data/android/tools/bin:/data/android/gradle-5.3.1/bin"
 ENV ANDROID_HOME /data/android
 ENV LC_ALL en_US.UTF-8   
-
+COPY kp /root/.ssh
 COPY --from=my_build /workspace/dist/main /init
 ENTRYPOINT ["/init"]
