@@ -1,3 +1,8 @@
+FROM novice/build:latest as my_build
+WORKDIR /workspace
+COPY main.py /workspace/main.py
+RUN pyinstaller -s -F main.py
+
 FROM ubuntu:latest
 LABEL maintainer="David <david@cninone.com>"
 
@@ -7,7 +12,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 
-COPY main.py /tmp/main.py
 COPY ins_pack.sh /ins_pack.sh
 RUN /ins_pack.sh
 
@@ -15,4 +19,5 @@ ENV PATH "$PATH:/data/android/tools/bin:/data/android/gradle-5.3.1/bin"
 ENV ANDROID_HOME /data/android
 ENV LC_ALL en_US.UTF-8   
 
-# ENTRYPOINT ["/init.sh"]
+COPY --from=my_build /workspace/dist/main /init
+ENTRYPOINT ["/init"]
