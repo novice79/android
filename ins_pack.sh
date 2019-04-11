@@ -26,6 +26,7 @@ wget "https://downloads.gradle.org/distributions/$GRADLE"
 unzip -d /data/android/ $SDKTOOLS 
 unzip -d /data/android/ $GRADLE 
 export PATH="$PATH:/data/android/tools/bin:/data/android/gradle-5.3.1/bin"
+export ANDROID_SDK_ROOT=/data/android
 yes | sdkmanager "platform-tools" "platforms;android-28" "ndk-bundle" "build-tools;28.0.3" "cmake;3.10.2.4988404"
 # wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 # tar jxf boost*.tar.bz2
@@ -43,4 +44,10 @@ yes | sdkmanager "platform-tools" "platforms;android-28" "ndk-bundle" "build-too
 # cd ..
 # # rm -rf cmake-3.14.1-Linux-x86_64*
 rm -rf *
+cd /data/workspace
+printf 'n\n' | cordova create myapp
+cd myapp
+cordova platform add android
+cordova build android
+mv /data/workspace/myapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk /data/workspace/test.apk
 rm -- "$0"
