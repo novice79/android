@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt-get update -y && apt-get install -y \
-    wget curl gnupg locales tzdata software-properties-common unzip upx
+    wget curl gnupg git locales tzdata software-properties-common unzip upx
      
 locale-gen en_US.UTF-8 zh_CN.UTF-8 
 
@@ -11,13 +11,13 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # nodejs begin
 curl -sL https://deb.nodesource.com/setup_11.x | bash - 
 
-apt-get update && apt-get install -y nodejs build-essential g++ gcc-8 g++-8 default-jdk
+apt-get update && apt-get install -y nodejs build-essential g++ gcc-8 g++-8 openjdk-8-jdk-headless
 
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 
 npm install -g cordova
-mkdir -p /data/android
+mkdir -p /data/android /data/workspace
 SDKTOOLS=sdk-tools-linux-4333796.zip
 GRADLE=gradle-5.3.1-bin.zip
 cd /tmp

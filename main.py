@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import re
 from datetime import datetime, time, timedelta
 # import subprocess
 from sanic import Sanic
@@ -39,33 +40,19 @@ async def index(req):
     return res.json({"hello": "world"})
 
 
-@app.post("/status-sshd")
-async def s_sshd(req):
-    command = ['fail2ban-client', 'status', 'sshd']
-    result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    # print(result.returncode, result.stdout, result.stderr)
-    return res.json(result)
-
-@app.post("/nb-banip")
-async def nb_banip(req):
+@app.post("/build")
+async def build(req):
     data = dict2obj(req.json)
-    if not ( hasattr(data, 'token') and hasattr(data, 'ip') ):
+    if not ( hasattr(data, 'token') and hasattr(data, 'url') and hasattr(data, 'cmd') ):
         return res.text('invalid')
     if os.environ.get('ACCESS_TOKEN') == data.token:
-        command = ['fail2ban-client', 'set', 'nb', 'banip', data.ip]
-        result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+        os.system( 'cd /data/workspace && git clone {}'.format(data.url) )
+        command = data.cmd.split(' ')
+        repo = re.split('/', url)[-1].rsplit('.', 1)[0]
+        result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, cwd=repo)
         return res.json(result)
     return res.text('invalid')
 
-@app.post('/login-failed')
-async def login_failed(req):
-    # logger.info(f"{req.json}")    
-    data = dict2obj(req.json)
-    if not ( hasattr(data, 'token') and hasattr(data, 'ip') ):
-        return res.text('invalid')
-    if os.environ.get('ACCESS_TOKEN') == data.token:
-        logger.info(f"failed_ip: {data.ip}")
-    return res.text('POST request - {}'.format(req.json))
 
 
 if __name__ == "__main__":
