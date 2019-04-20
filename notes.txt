@@ -1,3 +1,5 @@
 docker build -t android .
 
 ssh-keygen -C "novice@piaoyun.shop" -b 2048 -f kp/id_rsa -t rsa -N ''
+
+docker run -d --name ad novice/android 

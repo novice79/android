@@ -45,7 +45,9 @@ yes | sdkmanager "platform-tools" "platforms;android-28" "ndk-bundle" "build-too
 # # rm -rf cmake-3.14.1-Linux-x86_64*
 rm -rf *
 cd /data/workspace
-printf 'n\n' | cordova create myapp
+# printf 'n\n' | cordova create myapp
+cordova telemetry off
+cordova create myapp
 cd myapp
 cordova platform add android
 cordova build android
