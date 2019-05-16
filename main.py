@@ -37,7 +37,7 @@ def routine(app):
 
 @app.route("/")
 async def index(req):
-    return res.json({"hello": "world"})
+    return res.json({"android": "build environment"})
 
 
 @app.post("/build")
