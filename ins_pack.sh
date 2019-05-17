@@ -52,4 +52,9 @@ cd myapp
 cordova platform add android
 cordova build android
 mv /data/workspace/myapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk /data/workspace/test.apk
+cat <<EOT > /etc/environment
+ANDROID_HOME=/data/android
+ANDROID_SDK_ROOT=/data/android
+PATH="$PATH:/data/android/tools:/data/android/platform-tools:/data/android/tools/bin:/data/android/ndk-bundle:/data/android/gradle-5.3.1/bin"
+EOT
 rm -- "$0"
