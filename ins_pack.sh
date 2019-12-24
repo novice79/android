@@ -9,7 +9,7 @@ TZ=Asia/Chongqing
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # nodejs begin
-curl -sL https://deb.nodesource.com/setup_11.x | bash - 
+curl -sL https://deb.nodesource.com/setup_12.x | bash - 
 
 apt-get update && apt-get install -y nodejs build-essential g++ gcc-8 g++-8 openjdk-8-jdk-headless
 
@@ -19,15 +19,16 @@ update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/b
 npm install -g cordova
 mkdir -p /data/android /data/workspace
 SDKTOOLS=sdk-tools-linux-4333796.zip
-GRADLE=gradle-5.3.1-bin.zip
+GV=gradle-6.0.1
+GRADLE=$GV-bin.zip
 cd /tmp
 wget "https://dl.google.com/android/repository/$SDKTOOLS"
 wget "https://downloads.gradle.org/distributions/$GRADLE"
 unzip -d /data/android/ $SDKTOOLS 
 unzip -d /data/android/ $GRADLE 
-export PATH="$PATH:/data/android/tools/bin:/data/android/gradle-5.3.1/bin"
+export PATH="$PATH:/data/android/tools/bin:/data/android/$GV/bin"
 export ANDROID_SDK_ROOT=/data/android
-yes | sdkmanager "platform-tools" "platforms;android-28" "ndk-bundle" "build-tools;28.0.3" "cmake;3.10.2.4988404"
+yes | sdkmanager "platform-tools" "platforms;android-28" "build-tools;29.0.2" "ndk-bundle" "cmake;3.10.2.4988404"
 # wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 # tar jxf boost*.tar.bz2
 # cd boost_1_69_0 && ./bootstrap.sh
